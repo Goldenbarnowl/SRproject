@@ -65,14 +65,14 @@ async def set_alarm(message: Message, state: FSMContext):
 async def not_correct_time(message: Message, state: FSMContext):
     await bot.send_message(
         chat_id=message.chat.id,
-        text='Hе корректное время'
+        text='Неверно указано время! Напиши мне время в формате ЧЧ:ММ, например 22:00'
     )
 
 @router.message(F.text == user_keyboard_button["recomend"])
 async def recom(message: Message):
     await bot.send_message(
         chat_id=message.chat.id,
-        text=f'Boт список рекомендаций\n(нажмите чтобы читать):',
+        text=f'Boт список рекомендаций\n(нажми чтобы читать):',
         reply_markup=faq_keyboard_maker()
     )
 
@@ -88,6 +88,7 @@ async def answers(callback_query: CallbackQuery, state: FSMContext):
 async def new_alarm(message: Message, state: FSMContext):
     await bot.send_message(
         chat_id=message.chat.id,
-        text="Во сколько ты хочешь вставать по утрам?"
+        text="Во сколько ты хочешь вставать по утрам? (в формате ЧЧ:ММ)"
     )
     await state.set_state(User.wait_time)
+
