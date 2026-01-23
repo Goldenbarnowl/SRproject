@@ -52,7 +52,7 @@ async def wait():
                 if now >= time_sleep and now < time_sleep + timedelta(minutes=1):
                     await bot.send_message(
                         chat_id=alarm["chat_id"],
-                        text="Доброе утро, кажется тебе пора втсавать!\nНе забывай придерживаться здравого режима сна)"
+                        text="Доброе утро, кажется тебе пора вставать!\nНе забывай придерживаться здорового режима сна)"
                     )
                     await bot.send_photo(
                         chat_id=alarm["chat_id"],
@@ -73,3 +73,4 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(start())
     asyncio.run(wait())
+
