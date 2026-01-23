@@ -7,6 +7,9 @@ WORKDIR /app
 # Копируем файл с зависимостями
 COPY requirements.txt .
 
+ENV TZ=Asia/Omsk
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -18,3 +21,4 @@ COPY .env .env
 
 # Указываем команду для запуска приложения
 CMD ["python3", "main.py"]
+
