@@ -42,7 +42,7 @@ async def start(message: Message, state : FSMContext):
     await bot.send_message(
         chat_id=chat_id,
         text=f'✅В итоге, со мной ты сможешь спать лучше, просыпаться бодрым и повысить продуктивность днём. Давай начнём?\n'
-             f'\nДля начала <b>введи время</b>, в которое хотите вставать по утрам <b>\n(в формате ЧЧ:ММ)</b>',
+             f'\nДля начала <b>введи время</b>, в которое хочешь вставать по утрам <b>\n(в формате ЧЧ:ММ)</b>',
         parse_mode="HTML"
     )
     await state.set_state(User.wait_time)
@@ -91,4 +91,5 @@ async def new_alarm(message: Message, state: FSMContext):
         text="Во сколько ты хочешь вставать по утрам? (в формате ЧЧ:ММ)"
     )
     await state.set_state(User.wait_time)
+
 
