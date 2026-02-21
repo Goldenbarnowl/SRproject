@@ -43,3 +43,10 @@ def faq_keyboard_maker():
         button = InlineKeyboardButton(text=faqs[faq], callback_data=faq)
         builder.row(button)
     return builder.as_markup(resize_keyboard=True, is_persistent=True)
+
+def assessment_keyboard_maker():
+    builder = InlineKeyboardBuilder()
+    for i in range(1, 6):
+        button = InlineKeyboardButton(text=f"{i}⭐️", callback_data=f"{i}*")
+        builder.add(button)
+    return builder.as_markup(resize_keyboard=True, is_persistent=True)

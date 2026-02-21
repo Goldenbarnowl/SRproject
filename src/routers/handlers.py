@@ -6,9 +6,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery, FSInputFile
 from datetime import datetime, timedelta
 
-from config import bot, users_data_repo
+from config import bot, users_data_repo, assessments_data_repo
 from src.keyboards.keyboards import user_keyboard_button, alarm_keyboard_maker, menu_keyboard_maker, \
-    faq_keyboard_maker, faq_answers, faqs
+    faq_keyboard_maker, faq_answers, faqs, assessment_keyboard_maker
 from src.states.states import User
 
 router = Router()
@@ -47,7 +47,7 @@ async def start(message: Message, state : FSMContext):
     )
     await state.set_state(User.wait_time)
 
-@router.message(User.wait_time, F.text.regexp(r"^([01]?[0-9]|2[0-3]):[0-5][0-9]$"))
+@router.message(User.wait_time, F.text.regexp(r"^(?:[0-1][0-9]|2[0-3]):[0-5][0-9]$"))
 async def set_alarm(message: Message, state: FSMContext):
     time_str = message.text
     dt = datetime.strptime(time_str, "%H:%M")
@@ -92,4 +92,10 @@ async def new_alarm(message: Message, state: FSMContext):
     )
     await state.set_state(User.wait_time)
 
+@router.callback_query(F.data.regexp(r"^\d+\*$"))
+async def stars_rating(callback_query: CallbackQuery, state: FSMContext):
+    await callback_query.message.edit_reply_markup(reply_markup=None)
+    await callback_query.message.edit_caption(caption=f"Спасибо за оценку! Добавлю ее в статистику!")
+    print(callback_query.message.date)
+    assessments_data_repo.insert_field({"chat_id": callback_query.from_user.id, "date": callback_query.message.date.isoformat(), "assessment": int(callback_query.data[0])})
 
